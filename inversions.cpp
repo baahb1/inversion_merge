@@ -7,28 +7,41 @@ int merge_Sort(int array[],int P, int R);
 int merge(int array[],int P,int Q,int R);
 
 int IC = 0;
+int tot = 0;
 int main(){
     cout<<"enter array size";
     
     int array_size;
     cin>>array_size;
 
-    int R_array[array_size];
+    int* R_array = new int[array_size];
     for(int i = 0; i < array_size;i++){
-        R_array[i] = rand()%100;
+        R_array[i] = i;
+    }
+
+    for (int i = 0; i < array_size; i++)
+    {
+        int random = rand() % array_size;
+
+        int temp = R_array[i];
+
+        R_array[i] = R_array[random];
+        R_array[random] = temp;
     }
 
     print_array(R_array,array_size);
 
-    merge_Sort(R_array,0,array_size);
+    merge_Sort(R_array,0,array_size-1);
 
     cout<<endl;
 
     print_array(R_array,array_size);
 
-    cout<<endl<<" IC = "<<IC;
+    cout<<endl << "TOT "<< tot;
+
+    delete[] R_array;
     
-    return 1;
+    return 0;
 
 }
 
@@ -76,6 +89,12 @@ int merge(int array[],int P,int Q,int R){
 
     while (LI < left_s && RI < right_s)
     {
+        cout<<endl << "left : " << LI << " :";
+        print_array(left,left_s);
+
+        cout<<endl<<"right : "<< RI << " :";
+        print_array(right,right_s);
+
         if (left[LI] <= right[RI])
         {
             array[IM] = left[LI];
@@ -85,11 +104,18 @@ int merge(int array[],int P,int Q,int R){
             array[IM] = right[RI];
             RI+=1;
 
-            INC = INC + ((Q) - LI);
+            INC = INC + (left_s - LI);
+            cout<<endl<<"punched "<<LI << " " << INC;
+            
         }
+
+        
+
         IM+=1;
     }
 
+    cout<<endl<<"broken loop :"<< INC;
+    tot += INC;
 
     while (LI < left_s)
     {
@@ -124,5 +150,6 @@ int merge(int array[],int P,int Q,int R){
 void print_array(int* array,int n){
     for(int i =0;i<n && i < 20;i++){
         cout<<array[i]<<",";
+
     }
 }
